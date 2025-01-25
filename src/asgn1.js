@@ -167,13 +167,55 @@ function renderAllShapes(){
 
 // step 12
 document.getElementById('drawingButton').onclick = function() {
-  const one = new Circle();
-  one.position = [0, 0];
-  one.color = [0.1, 0.0, 0.0, 1.0];
-  one.size = 70;
-  one.segments = 32;
-  g_shapesList.push(one);
-  
+
+  for (var i = 0; i< 100000; i++){
+    gl.vertexAttrib3f(a_Position, Math.random(), Math.random(), 0.0);
+    gl.uniform4f(u_FragColor, Math.random(), 1.0, Math.random(), 1.0);
+    gl.uniform1f(u_Size, 2.0);
+    gl.drawArrays(gl.POINTS, 0, 1);
+    
+    gl.vertexAttrib3f(a_Position, -Math.random(), Math.random(), 0.0);
+    gl.uniform4f(u_FragColor, Math.random(), 1.0, Math.random(), 1.0);
+    gl.uniform1f(u_Size, 2.0);
+    gl.drawArrays(gl.POINTS, 0, 1);
+    
+    gl.vertexAttrib3f(a_Position, Math.random(), -Math.random(), 0.0);
+    gl.uniform4f(u_FragColor, Math.random(), 1.0, Math.random(), 1.0);
+    gl.uniform1f(u_Size, 2.0);
+    gl.drawArrays(gl.POINTS, 0, 1);
+    
+    gl.vertexAttrib3f(a_Position, -Math.random(), -Math.random(), 0.0);
+    gl.uniform4f(u_FragColor, Math.random(), 1.0, Math.random(), 1.0);
+    gl.uniform1f(u_Size, 2.0);
+    gl.drawArrays(gl.POINTS, 0, 1);
+  }
+  for (var i = 0; i< 50; i++){
+    const poppy1 = new Flower();
+    poppy1.position = [Math.random(), Math.random()];
+    poppy1.color = [1.0, 0.0, 0.0, 1.0];
+    poppy1.size = 10;
+    poppy1.segments = 32;
+    g_shapesList.push(poppy1);
+    const poppy2 = new Flower();
+    poppy2.position = [-Math.random(), Math.random()];
+    poppy2.color = [1.0, 0.0, 0.0, 1.0];
+    poppy2.size = 10;
+    poppy2.segments = 32;
+    g_shapesList.push(poppy2);
+    const poppy3 = new Flower();
+    poppy3.position = [Math.random(), -Math.random()];
+    poppy3.color = [1.0, 0.0, 0.0, 1.0];
+    poppy3.size = 10;
+    poppy3.segments = 32;
+    g_shapesList.push(poppy3);
+    const poppy4 = new Flower();
+    poppy4.position = [-Math.random(), -Math.random()];
+    poppy4.color = [1.0, 0.0, 0.0, 1.0];
+    poppy4.size = 10;
+    poppy4.segments = 32;
+    g_shapesList.push(poppy4);
+  }
+
   var len = g_shapesList.length;
     for(var i = 0; i < len; i++) {
         g_shapesList[i].render();
