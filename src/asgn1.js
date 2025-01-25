@@ -66,14 +66,32 @@ function connectVariablesToGLSL(){
     return;
   }
 }
+
+const POINT = 0;
+const TRIANGLE = 1;
+const GRASS = 2;
+const FLOWER = 3;
+const CIRCLE = 4;
   
 let g_selectedColor = [1.0,1.0,1.0,1.0];
 let g_selectedSize = 5;
+let g_selectedType = POINT;
+let g_segments = 10;
 
 function addActionForHtmlUI(){
   document.getElementById('green').onclick = function() {g_selectedColor = [0.0,1.0,0.0,1.0];};
   document.getElementById('red').onclick = function() {g_selectedColor = [1.0,0.0,0.0,1.0];};
+  document.getElementById('blue').onclick = function() {g_selectedColor = [0.0,0.0,1.0,1.0];};
+  
   document.getElementById('clearButton').onclick = function() {g_shapesList = []; renderAllShapes();};
+  
+  document.getElementById('pointButton').onclick = function() {g_selectedType = POINT;};
+  document.getElementById('triangleButton').onclick = function() {g_selectedType = TRIANGLE;};
+  document.getElementById('grassButton').onclick = function() {g_selectedType = GRASS;};
+  document.getElementById('flowerButton').onclick = function() {g_selectedType = FLOWER;};
+  
+  document.getElementById('circleButton').onclick = function() {g_selectedType = CIRCLE;};
+  document.getElementById('segmentsSlide').addEventListener('mouseup', function() { g_segments = this.value; });
   
   document.getElementById("redSlide").addEventListener("mouseup", function() {g_selectedColor[0] = this.value/100;});
   document.getElementById("greenSlide").addEventListener("mouseup", function() {g_selectedColor[1] = this.value/100;});
@@ -106,7 +124,19 @@ var g_shapesList = [];
 function click(ev) {
   let [x,y] = convertCoordinatesEventToGL(ev);
   
-  let point = new Point();
+  let point;
+  if (g_selectedType == POINT){
+    point = new Point();
+  } else if (g_selectedType == TRIANGLE){
+    point = new Triangle();
+  } else if (g_selectedType == GRASS){
+    point = new Grass();
+  } else if (g_selectedType == FLOWER){
+    point = new Flower();
+  } else if (g_selectedType == CIRCLE){
+    point = new Circle();
+  }
+  point.segments = g_segments;
   point.position = [x, y];
   point.color =  g_selectedColor.slice();
   point.size = g_selectedSize;
@@ -134,3 +164,17 @@ function renderAllShapes(){
     g_shapesList[i].render();
   }
 }
+
+document.getElementById('drawingButton').onclick = function() {
+  const one = new Circle();
+  one.position = [0, 0];
+  one.color = [0.1, 0.0, 0.0, 1.0];
+  one.size = 70;
+  one.segments = 32;
+  g_shapesList.push(one);
+  
+  var len = g_shapesList.length;
+    for(var i = 0; i < len; i++) {
+        g_shapesList[i].render();
+    }
+};
