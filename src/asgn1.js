@@ -165,6 +165,7 @@ function renderAllShapes(){
   }
 }
 
+// step 12
 document.getElementById('drawingButton').onclick = function() {
   const one = new Circle();
   one.position = [0, 0];
